@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import type { CryptoAsset, CryptoData } from "../components/types";
 import { fakeAssets, fakeFetchCrypto } from "../Api";
 import { percentDifference } from "../utils";
@@ -67,4 +67,8 @@ export function CryptoContextProvider({children}:CryptoContextProviderProps){
     return (
         <CryptoContext.Provider value={{loading,crypto,assets}}>{children}</CryptoContext.Provider>
     )
+}
+
+export function useCrypto(){
+  return useContext(CryptoContext)
 }
