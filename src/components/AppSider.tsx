@@ -1,65 +1,18 @@
-import { useEffect, useState, type FC } from "react";
-import { ArrowDownOutlined, ArrowUpOutlined,LoadingOutlined  } from '@ant-design/icons';
-import { Layout,Card, Statistic,List ,Spin,Typography ,Tag } from 'antd'
-import { fakeAssets, fakeFetchCrypto } from "../Api";
-import type { CryptoAsset, CryptoData } from "./types";
-import { percentDifference } from "../utils";
+import { useContext, type FC } from "react";
+import { ArrowDownOutlined, ArrowUpOutlined} from '@ant-design/icons';
+import { Layout,Card, Statistic,List ,Typography ,Tag } from 'antd'
+
 import { capotalaze } from "../utils";
+import { CryptoContext } from "../context/crypto-context";
 
 const siderStyle: React.CSSProperties = {
   padding:'1rem'
 };
 
-
-
-interface EnhancedAsset extends CryptoAsset {
-  grow: boolean;
-  growPercent: number;
-  totalAmount: number;
-  totalProfit: number;
-}
-
-
 export const AppSider:FC = () => {
 
-    const [loading,setLoading] = useState<boolean>(false)
-    const [crypto,setCrypto] = useState<CryptoData | null>(null)
-    const [assets,setAssets] = useState<EnhancedAsset[]>([])
+    const {assets} = useContext(CryptoContext)
 
-    useEffect(()=>{
-      async function preload(){
-        setLoading(true)
-          const cryptoObject = await fakeFetchCrypto() as CryptoData
-          const assets = await fakeAssets() as CryptoAsset[]
-
-          setAssets(assets.map(asset=>{
-            const coin = cryptoObject.result.find(c => c.id === asset.id)
-            if(!coin){
-                return{
-                    ...asset,
-                    grow: false,
-                    growPercent: 0,
-                    totalAmount: 0,
-                    totalProfit: 0
-                }
-            }
-            return {
-                grow: asset.price < coin.price,
-                growPercent: percentDifference(asset.price,coin.price),
-                totalAmount:asset.amount * coin.price,
-                totalProfit:asset.amount * coin.price - asset.amount * asset.price,
-                ...asset
-            }
-          }))
-          setCrypto(cryptoObject)
-          setLoading(false)
-      }
-      preload()
-    },[])   
-
-    if(loading){
-        return <Spin indicator={<LoadingOutlined style={{ fontSize: 170 }} spin />}  fullscreen/>
-    }
  
     return (
         <Layout.Sider width="25%" style={siderStyle}>

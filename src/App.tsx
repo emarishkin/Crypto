@@ -1,21 +1,15 @@
 import { type FC } from 'react';
-import { AppHeader } from './components/AppHeader';
-import { AppSider } from './components/AppSider';
-import {Layout} from 'antd';
-import { AppContent } from './components/AppContent';
+import { CryptoContextProvider } from './context/crypto-context';
+import { AppLayout } from './AppLayout';
 
 
 const App:FC = () => {
 
   return (
     <>
-    <Layout>
-      <AppSider />
-      <Layout>
-        <AppHeader />
-        <AppContent />
-      </Layout>
-    </Layout>
+    <CryptoContextProvider>
+    <AppLayout/>
+    </CryptoContextProvider>
     </>
   )
 }
