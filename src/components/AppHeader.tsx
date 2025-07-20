@@ -84,8 +84,9 @@ export const AppHeader: FC = () => {
             onClose={()=>setDrawer(false)}
             open={drawer}
             destroyOnHidden
+            
           >
-            <AddAssetForm />
+            <AddAssetForm onClose={()=>setDrawer(false)}/>
           </Drawer>
 
         </Layout.Header>
