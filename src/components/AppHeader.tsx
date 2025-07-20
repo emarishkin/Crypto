@@ -77,11 +77,13 @@ export const AppHeader: FC = () => {
           
 
           <Drawer
+            
           width={400}
             title="Add asset"
             closable={{ 'aria-label': 'Close Button' }}
             onClose={()=>setDrawer(false)}
             open={drawer}
+            destroyOnHidden
           >
             <AddAssetForm />
           </Drawer>
